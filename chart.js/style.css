@@ -1,0 +1,43 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #121212; /* Fondo oscuro para resaltar las gráficas */
+  color: #00ff00; /* Texto verde fosforescente */
+  margin: 0;
+  padding: 0;
+}
+
+/* Grid layout for the charts */
+.grid-graficas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); /* Aumentar tamaño mínimo */
+  gap: 40px; /* Espaciado entre las gráficas */
+  padding: 40px;
+}
+
+/* Canvas styling */
+canvas {
+  background-color: #1a1a1a; /* Fondo oscuro para las gráficas */
+  border: 3px solid #00ff00; /* Borde verde fosforescente */
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00ff00; /* Resplandor verde fosforescente */
+  width: 100%; /* Ajustar al contenedor */
+  height: auto; /* Ajustar automáticamente */
+  aspect-ratio: 2 / 1; /* Mantener proporción para evitar pixelación */
+}
+
+/* Header styling */
+h1, h2 {
+  text-align: center;
+  color: #00ff00;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .grid-graficas {
+    grid-template-columns: 1fr;
+  }
+  canvas {
+    aspect-ratio: 1.5 / 1; /* Ajustar proporción en pantallas pequeñas */
+  }
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Monitoreo de Planta Nuclear</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <h1>Monitoreo de Planta Nuclear</h1>
+  <div class="grid-graficas">
+    <div class="grafica-contenedor">
+      <canvas id="graficaPresionBarra" style="height: 200px;"></canvas>
+      <canvas id="graficaPresionLinea" style="height: 200px;"></canvas>
+    </div>
+    <div class="grafica-contenedor">
+      <canvas id="graficaRadiacionBarra" style="height: 200px;"></canvas>
+      <canvas id="graficaRadiacionLinea" style="height: 200px;"></canvas>
+    </div>
+    <div class="grafica-contenedor">
+      <canvas id="graficaTemperaturaBarra" style="height: 200px;"></canvas>
+      <canvas id="graficaTemperaturaLinea" style="height: 200px;"></canvas>
+    </div>
+    <div class="grafica-contenedor">
+      <canvas id="graficaProduccionBarra" style="height: 200px;"></canvas>
+      <canvas id="graficaProduccionLinea" style="height: 200px;"></canvas>
+    </div>
+    <div class="grafica-contenedor">
+      <canvas id="graficaFlujoNeutronesBarra" style="height: 200px;"></canvas>
+      <canvas id="graficaFlujoNeutronesLinea" style="height: 200px;"></canvas>
+    </div>
+    <div class="grafica-contenedor">
+      <canvas id="graficaNivelAguaBarra" style="height: 200px;"></canvas>
+      <canvas id="graficaNivelAguaLinea" style="height: 200px;"></canvas>
+    </div>
+    <div class="grafica-contenedor">
+      <canvas id="graficaExposicionPersonalBarra" style="height: 200px;"></canvas>
+      <canvas id="graficaExposicionPersonalLinea" style="height: 200px;"></canvas>
+    </div>
+    <div class="grafica-contenedor">
+      <canvas id="graficaAlarmasBarra" style="height: 200px;"></canvas>
+      <canvas id="graficaAlarmasLinea" style="height: 200px;"></canvas>
+    </div>
+    <div class="grafica-contenedor">
+      <canvas id="graficaTiempoOperacionBarra" style="height: 200px;"></canvas>
+      <canvas id="graficaTiempoOperacionLinea" style="height: 200px;"></canvas>
+    </div>
+    <div class="grafica-contenedor">
+      <canvas id="graficaConcentracionGasesBarra" style="height: 200px;"></canvas>
+      <canvas id="graficaConcentracionGasesLinea" style="height: 200px;"></canvas>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
