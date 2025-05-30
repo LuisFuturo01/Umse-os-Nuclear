@@ -51,21 +51,22 @@ function verificarAlertas(config, nuevoDato) {
   
   // Verificar si el valor está fuera de los umbrales
   if (valor > umbralCritico) {
-    return {
-      tipo: 'danger',
-      mensaje: `¡CRÍTICO! ${etiqueta} en ${valor} (Máx: ${rango.max})`
-    };
-  } else if (valor > umbralAlto) {
-    return {
-      tipo: 'warning',
-      mensaje: `Advertencia: ${etiqueta} en ${valor} (Máx: ${rango.max})`
-    };
-  } else if (valor < umbralBajo) {
-    return {
-      tipo: 'warning',
-      mensaje: `Advertencia: ${etiqueta} en ${valor} (Mín: ${rango.min})`
-    };
-  }
+  return {
+    tipo: 'danger',
+    mensaje: `CRITICAL! ${etiqueta} at ${valor} (Max: ${rango.max})`
+  };
+} else if (valor > umbralAlto) {
+  return {
+    tipo: 'warning',
+    mensaje: `Warning: ${etiqueta} at ${valor} (Max: ${rango.max})`
+  };
+} else if (valor < umbralBajo) {
+  return {
+    tipo: 'warning',
+    mensaje: `Warning: ${etiqueta} at ${valor} (Min: ${rango.min})`
+  };
+}
+
   
   return null;
 }
@@ -88,7 +89,7 @@ function mostrarAlerta(alerta) {
   
   alertPanel.prepend(alertElement);
   
-  // Eliminar alerta después de 10 segundos
+  // Remove alert after 10 seconds
   setTimeout(() => {
     const alertToRemove = document.getElementById(`alert-${alertId}`);
     if (alertToRemove) alertToRemove.remove();

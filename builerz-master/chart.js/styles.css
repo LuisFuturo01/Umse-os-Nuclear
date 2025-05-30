@@ -80,6 +80,7 @@ main{
   padding: 30px;
   max-width: 1400px;
   margin: 0 auto;
+  margin-right: 25vw;
 }
 
 .grafica-contenedor {
@@ -158,60 +159,57 @@ canvas {
 
 .alert-panel-container {
   position: fixed;
-  top: 85px;
+  top: 90px;
   right: 0;
-  min-height: 100vh;
-  height: max-content;
+  height: 95vh;
   display: flex;
   align-items: center;
-  z-index: 1000;
+  z-index: 0;
+  overflow: hidden;
 }
 
 .alert-panel {
-  position: relative;
-  background-color: #10774067;
-  width: 400px;
-  padding: 2rem;
-  height: 86%;
-  bottom: 0;
+   position: relative;
+   background-color: #10774067;
+   width: 450px;
+   padding: 2rem;
+   height: 86%;
+   bottom: 0;
+   overflow-x: hidden;
+   overflow-y: auto; /* Ensure vertical scroll is active */
+   right: 0; /* Panel starts on the right */
+   border-radius: 50px 0 0 50px;
+   transition: transform 0.3s ease-in-out; /* Smooth sliding animation */
+  /* Custom scrollbar styles */
+  scrollbar-width: thin; /* "auto" or "thin" */
+  scrollbar-color: var(--primary) transparent; /* thumb color track color */
+}
 
-  right: 0; /* Panel starts on the right */
-  border-radius: 50px 0 0 50px;
-  transition: transform 0.3s ease-in-out; /* Smooth sliding animation */
+/* Webkit browsers (Chrome, Safari) */
+.alert-panel::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.alert-panel::-webkit-scrollbar-track {
+  background: transparent; /* Color of the scrollbar track */
+  border-radius: 10px;
+}
+
+.alert-panel::-webkit-scrollbar-thumb {
+  background-color: var(--primary); /* Color of the scroll thumb */
+  border-radius: 10px; /* Rounded corners for the thumb */
+  border: 2px solid var(--card-bg); /* Border around the thumb */
+}
+
+.alert-panel::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-dark); /* Color of the scroll thumb on hover */
 }
 
 .alert-panel.hidden {
   transform: translateX(100%); /* Slide out to the right */
 }
 
-.close-container {
-  position: absolute;
-  top: 50%;
-  left: -50px; /* Start the button to the left of the panel */
-  transform: translateX(15px);
-  width: 50px;
-  height: 50px;
-  z-index: 1000; /* Ensure the button is above other elements */
-}
 
-.panel-close {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #00ff6e;
-  border-radius: 50%;
-  height: 50px;
-  width: 50px;
-  color: black;
-  font-size: 1.5rem;
-  user-select: none;
-  transition: all 0.3s ease;
-}
-
-.panel-close:hover {
-  background-color: #00cc66;
-  cursor: pointer;
-}
 
 .alert {
   background-color: rgba(255, 51, 51, 0.9);

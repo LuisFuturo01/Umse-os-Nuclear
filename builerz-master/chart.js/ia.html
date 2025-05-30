@@ -1,155 +1,263 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Asistente IA - Central Nuclear</title>
+  <title>AI Assistant - Nuclear Operations</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
   <style>
+    :root {
+        --card-bg: #121a12; 
+        --primary: #00f000; 
+        --text-color: #c0e0c0; 
+        --border-color: rgba(0, 255, 0, 0.3);
+        --input-bg: rgba(10, 30, 10, 0.8);
+        --header-bg: #0f1a0f;
+        --strong-text: #ffffff;
+    }
+    body {
+        font-family: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        background-color: #080c08; 
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: var(--header-bg);
+        padding: 15px 30px;
+        border-bottom: 2px solid var(--primary);
+        box-shadow: 0 2px 15px rgba(0, 255, 0, 0.25);
+    }
+    .header-content {
+        max-width: 1600px; /* Wider layout */
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .header-content h1 {
+        margin: 0;
+        font-size: 2em; /* Larger title */
+        color: var(--primary);
+        text-shadow: 0 0 5px var(--primary);
+    }
+    .status-bar {
+        font-size: 0.95em;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .status-indicator {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: #ff3030;
+    }
+    .status-indicator.active {
+        background-color: var(--primary);
+        box-shadow: 0 0 10px var(--primary);
+        animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+        0% { box-shadow: 0 0 5px var(--primary); }
+        50% { box-shadow: 0 0 15px var(--primary); }
+        100% { box-shadow: 0 0 5px var(--primary); }
+    }
     .ia-container {
-      max-width: 1400px;
-      margin: 40px auto;
+      max-width: 1600px;
+      margin: 25px auto;
       padding: 20px;
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 2.5fr 1fr; /* More space for chat */
       gap: 30px;
     }
-    
-    .ia-chat {
+    .ia-chat, .ia-info {
       background-color: var(--card-bg);
-      border: 2px solid var(--primary);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+      border: 1px solid var(--border-color);
+      border-radius: 12px; /* Softer radius */
+      padding: 25px;
+      box-shadow: 0 0 25px rgba(0, 255, 0, 0.15);
     }
-    
-    .ia-info {
-      background-color: var(--card-bg);
-      border: 2px solid var(--primary);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-    }
-    
     .messages {
-      height: 400px;
+      height: 500px; 
       overflow-y: auto;
       margin-bottom: 20px;
-      border: 1px solid var(--primary);
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 15px;
-      background-color: rgba(10, 20, 10, 0.5);
+      padding: 20px;
+      background-color: rgba(5, 15, 5, 0.7);
     }
-    
     .message {
-      margin-bottom: 15px;
+      margin-bottom: 18px;
       display: flex;
-      gap: 10px;
+      gap: 12px;
+      align-items: flex-start;
     }
-    
     .message .avatar {
-      width: 40px;
-      height: 40px;
+      width: 44px; /* Slightly larger avatar */
+      height: 44px;
       border-radius: 50%;
-      background-color: rgba(26, 129, 124, 0.7);
+      background-color: rgba(0, 180, 0, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      border: 1px solid var(--primary);
     }
-    
     .message .avatar i {
       font-size: 20px;
-    }
-    
-    .message .content {
-      flex-grow: 1;
-    }
-    
-    .message.user .avatar {
-      background-color: rgba(75, 192, 192, 0.7);
-    }
-    
-    .input-area {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .input-area input {
-      flex-grow: 1;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid var(--primary);
-      background-color: rgba(10, 20, 10, 0.7);
       color: var(--primary);
     }
-    
+    .message .content {
+      flex-grow: 1;
+      background-color: rgba(10, 40, 10, 0.6);
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 255, 0, 0.25);
+    }
+    .message .content strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--strong-text);
+        font-size: 0.9em;
+        text-transform: uppercase;
+    }
+    .message .content div, .message .content ul, .message .content p {
+        line-height: 1.65;
+        font-size: 0.95em;
+    }
+    .message .content ul {
+        padding-left: 20px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+     .message .content li {
+        margin-bottom: 4px;
+    }
+    .message.user .avatar {
+      background-color: rgba(0, 120, 180, 0.5);
+    }
+    .message.user .content {
+        background-color: rgba(0, 60, 90, 0.7);
+    }
+    .input-area {
+      display: flex;
+      gap: 12px;
+    }
+    .input-area input {
+      flex-grow: 1;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--primary);
+      background-color: var(--input-bg);
+      color: var(--primary);
+      font-size: 1em;
+    }
+    .input-area input::placeholder {
+        color: rgba(0, 255, 0, 0.4);
+    }
     .input-area button {
-      padding: 12px 20px;
+      padding: 14px 22px;
       border-radius: 8px;
       border: none;
       background-color: var(--primary);
-      color: #002200;
+      color: #001a00; /* Darker text for contrast */
       font-weight: bold;
       cursor: pointer;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
     }
-    
+    .input-area button:hover {
+        background-color: #00dd00;
+        box-shadow: 0 0 10px #00dd00;
+    }
+    .ia-info h3 {
+        border-bottom: 1px solid var(--primary);
+        padding-bottom: 12px;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+        text-shadow: 0 0 3px var(--primary);
+    }
     .status-cards {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive columns */
+      gap: 18px;
+      margin-bottom: 25px;
     }
-    
     .status-card {
-      background-color: rgba(10, 20, 10, 0.5);
-      border: 1px solid var(--primary);
+      background-color: rgba(10, 30, 10, 0.7);
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 15px;
+      padding: 18px;
       text-align: center;
     }
-    
     .status-card i {
-      font-size: 24px;
-      margin-bottom: 10px;
+      font-size: 30px; 
+      margin-bottom: 12px;
       color: var(--primary);
     }
-    
     .status-card h4 {
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      font-size: 1.05em;
+      color: var(--strong-text);
+      text-transform: uppercase;
     }
-    
+    .status-card p {
+        margin: 0;
+        font-size: 1.1em; /* Larger data display */
+        font-weight: bold;
+    }
+    .status-card .status-text { /* Class for status text like (Safe), (Normal) */
+        display: block;
+        font-size: 0.8em;
+        font-weight: normal;
+        margin-top: 4px;
+    }
+    .status-safe { color: #00ff00; } /* Green for safe/normal */
+    .status-warning { color: #ffdd00; } /* Yellow for warning */
+    .status-critical { color: #ff4400; } /* Red for critical */
+
     .quick-actions {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
+      gap: 12px;
     }
-    
     .action-btn {
-      padding: 12px;
+      padding: 14px;
       border-radius: 8px;
-      border: none;
-      background-color: var(--primary);
-      color: #002200;
+      border: 1px solid var(--primary);
+      background-color: rgba(0, 255, 0, 0.05);
+      color: var(--primary);
       font-weight: bold;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      font-size: 0.95em;
     }
+    .action-btn:hover {
+        background-color: var(--primary);
+        color: #001a00;
+    }
+    .action-btn:hover i { color: #001a00; }
   </style>
 </head>
 <body>
   <header>
     <div class="header-content">
-      <h1>Asistente IA Nuclear</h1>
+      <h1>Nuclear AI Operations Assistant</h1>
       <div class="status-bar">
         <span class="status-indicator active"></span>
-        <span>Operative AI</span>
-        <span>| Model: GPT-Nuclear v4.3</span>
+        <span>AI Core: Sentinel VII</span>
+        <span>| Status: Optimal</span>
       </div>
+    </div>
+    <div    style="width: max-content;
+    height: 100%; display: flex;">
+      <a href="../index.html" style="padding: 1rem; background-color: #166c37; color: white; text-decoration: none; border-radius: 30px; position: sticky;
+    top: 0;">Back</a>
     </div>
   </header>
   
@@ -158,95 +266,353 @@
       <div class="messages" id="chatMessages">
         <div class="message ai">
           <div class="avatar">
-            <i class="fas fa-robot"></i>
+            <i class="fas fa-atom"></i>
           </div>
           <div class="content">
-            <strong>Nuclear Asistance:</strong> Hi, I am your especialiced personal asistance in nuclear operations. May I help you today? You can ask me about:
+            <strong>Nuclear Assistant AI:</strong> Systems online. I am Sentinel VII, your specialized AI assistant for nuclear operations. My core directives are to provide data, optimize procedures, and ensure safety. My knowledge base includes:
             <ul>
-              <li>Sensor data interpretation</li>
-              <li>Operations optimization</li>
-              <li>Safety measures</li>
-              <li>Emergency procedures</li>
+              <li>Real-time Reactor Status (Pressure, Temperature, Radiation, Power Output)</li>
+              <li>Key Parameters (Neutron Flux, Water Levels, Personnel Exposure, Alarms)</li>
+              <li>System Performance (Operational Uptime, Gas Concentrations)</li>
+              <li>Fundamental Nuclear Science (Fission, Reactor Types: PWR, BWR)</li>
+              <li>Operational Aspects (Fuel Cycle, Waste Management)</li>
+              <li>Radiation Physics (Alpha, Beta, Gamma) & Safety Doctrines (ALARA, Defense in Depth)</li>
+              <li>Historical Incident Analysis (Chernobyl, Fukushima, TMI)</li>
             </ul>
+            State your query, Operator, or type 'menu' for a summary of these capabilities.
           </div>
         </div>
       </div>
       
       <div class="input-area">
-        <input type="text" id="user-input" placeholder="Escribe tu consulta sobre operaciones nucleares...">
-        <button id="send-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
+        <input type="text" id="userInput" placeholder="Enter your query regarding nuclear operations...">
+        <button id="sendBtn"><i class="fas fa-paper-plane"></i> Send</button>
       </div>
     </div>
     
     <div class="ia-info">
       <h3>Current Operational Context</h3>
-<div class="status-cards">
-  <div class="status-card">
-    <i class="fas fa-radiation"></i>
-    <h4>Radiation Level</h4>
-    <p>0.25 mSv/h <span class="safe">(Safe)</span></p>
-  </div>
-  <div class="status-card">
-    <i class="fas fa-temperature-high"></i>
-    <h4>Reactor Temperature</h4>
-    <p>305 K <span class="normal">(Normal)</span></p>
-  </div>
-  <div class="status-card">
-    <i class="fas fa-tachometer-alt"></i>
-    <h4>Pressure</h4>
-    <p>0.82 bar <span class="normal">(Stable)</span></p>
-  </div>
-</div>
+      <div class="status-cards">
+        <div class="status-card">
+          <i class="fas fa-radiation"></i>
+          <h4>Radiation Level</h4>
+          <p id="status-radiation">-- mSv/h</p>
+        </div>
+        <div class="status-card">
+          <i class="fas fa-temperature-high"></i>
+          <h4>Reactor Temp.</h4>
+          <p id="status-temperature">-- K</p>
+        </div>
+        <div class="status-card">
+          <i class="fas fa-gauge-high"></i> 
+          <h4>System Pressure</h4>
+          <p id="status-pressure">-- bar</p>
+        </div>
+        <div class="status-card">
+          <i class="fas fa-bolt"></i>
+          <h4>Power Output</h4>
+          <p id="status-power">-- MWe</p>
+        </div>
+      </div>
 
-<div class="quick-actions">
-  <h3>Quick Actions</h3>
-  <button class="action-btn"><i class="fas fa-file-alt"></i> Generate Report</button>
-  <button class="action-btn"><i class="fas fa-chart-line"></i> Predict Output</button>
-  <button class="action-btn"><i class="fas fa-exclamation-triangle"></i> Simulate Emergency</button>
-</div>
-
+      <div class="quick-actions">
+        <h3>Quick Actions</h3>
+        <button class="action-btn" data-action="report"><i class="fas fa-file-invoice"></i> Generate Status Report</button>
+        <button class="action-btn" data-action="predict"><i class="fas fa-chart-line"></i> Predict Power Output (12h)</button>
+        <button class="action-btn" data-action="simulate"><i class="fas fa-biohazard"></i> Simulate Emergency Drill</button>
+      </div>
     </div>
   </main>
 
-  <script>
-    document.getElementById('send-btn').addEventListener('click', enviarMensaje);
-    document.getElementById('user-input').addEventListener('keypress', (e) => {
-      if(e.key === 'Enter') enviarMensaje();
+<script>
+  // --- SIMULATED LIVE SENSOR DATA & PARAMETERS ---
+  let currentStatus = {
+    pressure: { value: 0.82, unit: "bar", min: 0.70, max: 0.95, fluctuation: 0.02, nominalLow: 0.78, nominalHigh: 0.88 },
+    radiation: { value: 0.17, unit: "mSv/h", min: 0.05, max: 0.35, fluctuation: 0.03, nominalLow: 0.08, nominalHigh: 0.25, criticalHigh: 0.30 },
+    temperature: { value: 315, unit: "K", min: 290, max: 340, fluctuation: 3, nominalLow: 300, nominalHigh: 325, criticalHigh: 335 },
+    power: { value: 590, unit: "MWe", min: 300, max: 750, fluctuation: 20, nominalLow: 550, nominalHigh: 650 },
+    neutronFlux: { value: 1.5e12, unit: "n/cm²s", min: 0.5e12, max: 2.5e12, fluctuation: 0.1e12, nominalLow: 1.2e12, nominalHigh: 1.8e12 },
+    waterLevel: { value: 5.6, unit: "meters", min: 4.0, max: 6.5, fluctuation: 0.1, nominalLow: 5.0, nominalHigh: 6.0 },
+    personnelExposure: { value: 200, unit: "µSv", description: "avg. weekly dose", limit: 500 },
+    alarms: { value: 0, unit: "active critical", description: "No critical alarms" },
+    uptime: { value: 751, unit: "hours", description: "current cycle" },
+    gasConcentration: { value: 3.1, unit: "ppm", description: "noble gases in effluent", limit: 10 }
+  };
+
+  // --- DOM Elements ---
+  const sendBtn = document.getElementById('sendBtn');
+  const userInput = document.getElementById('userInput');
+  const chatMessages = document.getElementById('chatMessages');
+
+  // --- EVENT LISTENERS ---
+  sendBtn.addEventListener('click', handleUserMessage);
+  userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); 
+      handleUserMessage();
+    }
+  });
+
+  document.querySelectorAll('.action-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const action = button.dataset.action;
+      handleQuickAction(action);
     });
-    
-    function enviarMensaje() {
-      const input = document.getElementById('user-input');
-      const message = input.value.trim();
-      if(!message) return;
-      
-      // Agregar mensaje de usuario
-      agregarMensaje(message, 'user');
-      
-      // Simular respuesta de IA
-      setTimeout(() => {
-        agregarMensaje("He analizado tu consulta sobre '" + message + "'. Según los datos actuales del reactor, todo está dentro de parámetros normales. ¿Necesitas más detalles específicos?", 'ai');
-      }, 1000);
-      
-      input.value = '';
+  });
+
+  // --- INITIALIZATION ---
+  document.addEventListener('DOMContentLoaded', () => {
+    updateStatusCards(); 
+    setInterval(updateStatusCards, 4000);
+  });
+
+  // --- CORE FUNCTIONS ---
+  function handleUserMessage() {
+    const messageText = userInput.value.trim();
+    if (!messageText) return;
+
+    addMessageToChat(messageText, 'user');
+    userInput.value = ''; 
+
+    setTimeout(() => {
+      const aiResponse = processAIConsultation(messageText);
+      addMessageToChat(aiResponse, 'ai');
+    }, 1000 + Math.random() * 500); 
+  }
+  
+  function handleQuickAction(action) {
+    let userMessage = "";
+    let aiActionResponse = "";
+
+    if (action === "report") {
+        userMessage = "Requesting: Generate Status Report";
+        aiActionResponse = `Generating comprehensive operational status report...
+          <br><strong>Current Key Parameters (as of ${new Date().toLocaleTimeString()}):</strong>
+          <ul>
+            <li>System Pressure: ${currentStatus.pressure.value.toFixed(2)} ${currentStatus.pressure.unit}</li>
+            <li>Radiation Level (Avg): ${currentStatus.radiation.value.toFixed(2)} ${currentStatus.radiation.unit}</li>
+            <li>Reactor Core Temperature: ${currentStatus.temperature.value.toFixed(0)} ${currentStatus.temperature.unit}</li>
+            <li>Net Power Output: ${currentStatus.power.value.toFixed(0)} ${currentStatus.power.unit}</li>
+            <li>Neutron Flux: ${currentStatus.neutronFlux.value.toExponential(2)} ${currentStatus.neutronFlux.unit}</li>
+            <li>Active Critical Alarms: ${currentStatus.alarms.value} (${currentStatus.alarms.description})</li>
+          </ul>
+          <p>The full report including trends and system diagnostics will be routed to the main control console and archived. Please specify if you need any particular section highlighted.</p>`;
+    } else if (action === "predict") {
+        userMessage = "Requesting: Predict Power Output (12h)";
+        const currentPower = currentStatus.power.value;
+        const predictedMin = Math.max(currentStatus.power.min, Math.round(currentPower * 0.95 - Math.random() * 30));
+        const predictedMax = Math.min(currentStatus.power.max, Math.round(currentPower * 1.05 + Math.random() * 30));
+        aiActionResponse = `Analyzing operational trends and predictive models for power output...
+          <br>Based on current reactor stability (${currentPower.toFixed(0)} ${currentStatus.power.unit}) and projected grid demand, the estimated output for the next 12 hours is between <strong>${predictedMin} - ${predictedMax} ${currentStatus.power.unit}</strong>.
+          <p>Confidence level: 98.5%. Factors considered: fuel burnup rate, control rod positions, and coolant flow efficiency.</p>`;
+    } else if (action === "simulate") {
+        userMessage = "Requesting: Simulate Emergency Drill";
+        aiActionResponse = `<strong>EMERGENCY DRILL PROTOCOL INITIATED. THIS IS A SIMULATION.</strong>
+          <br>Scenario: <strong>Large Break Loss of Coolant Accident (LB-LOCA)</strong> with partial failure of Emergency Core Cooling System (ECCS) - Pump B.
+          <br>All personnel must adhere to EOP-LOCA-01 Rev.4 procedures.
+          <br>Reactor scram sequence initiated (simulated). Containment isolation in progress (simulated).
+          <br>Radiation levels in primary containment rising (simulated).
+          <p>Acknowledge this drill and report to your designated emergency stations. This simulation will conclude in T-minus 60 minutes unless terminated earlier by the Shift Supervisor.</p>`;
     }
+    addMessageToChat(userMessage, 'user');
+    setTimeout(() => addMessageToChat(aiActionResponse, 'ai'), 1200);
+  }
+
+  function processAIConsultation(userInput) {
+    const S = currentStatus; 
+    const userMessageLower = userInput.toLowerCase();
+    let aiResponseText = "";
+
+    const detailedMenu = `My operational capabilities allow me to provide information and assistance regarding:
+      <ul>
+        <li>Real-time Reactor Status (e.g., "current pressure", "radiation levels")</li>
+        <li>Key Parameters (Neutron Flux, Water Levels, Personnel Exposure, Alarms)</li>
+        <li>System Performance (Operational Uptime, Gas Concentrations)</li>
+        <li>Fundamental Nuclear Science (Fission, Reactor Types: PWR, BWR)</li>
+        <li>Operational Aspects (Fuel Cycle, Waste Management)</li>
+        <li>Radiation Physics (Alpha, Beta, Gamma) & Safety Doctrines (ALARA, Defense in Depth)</li>
+        <li>Historical Incident Analysis (Chernobyl, Fukushima, TMI)</li>
+      </ul>
+    Please state your query, Operator, or type 'menu' for this summary.`;
+
+    // --- Enhanced Conversational Handlers ---
+    if (userMessageLower.includes("hello") || userMessageLower.includes("hi") || userMessageLower.includes("greetings") || userMessageLower.includes("good day")) {
+        aiResponseText = `Greetings, Operator. I am Sentinel VII, your Nuclear AI Operations Assistant. All my systems are online and nominal. My core programming is dedicated to providing critical data analysis, optimizing operational procedures, upholding safety protocols, and guiding through emergency responses. ${detailedMenu}`;
+    } else if (userMessageLower.includes("how are you") || userMessageLower.includes("how are you doing") || userMessageLower.includes("status report self")) {
+        aiResponseText = `I am functioning at optimal efficiency, Operator. All diagnostic parameters are green. As Sentinel VII, the Nuclear AI Operations Assistant, I am fully prepared to support your tasks related to nuclear facility management, including real-time monitoring, procedural guidance, and knowledge dissemination. What is your query?`;
+    } else if (userMessageLower.includes("what are you") || userMessageLower.includes("who are you") || userMessageLower.includes("your purpose")  || userMessageLower.includes("your function")) {
+        aiResponseText = `I am Sentinel VII, a specialized artificial intelligence designated as the Nuclear AI Operations Assistant. My primary functions are to:
+        <ul>
+            <li>Monitor and interpret real-time operational data from the nuclear facility.</li>
+            <li>Assist in optimizing reactor performance and operational workflows.</li>
+            <li>Provide guidance on safety measures and regulatory compliance.</li>
+            <li>Support decision-making during emergency procedures.</li>
+            <li>Offer comprehensive information on nuclear science, engineering, and safety principles.</li>
+        </ul>
+        I am ready to process your requests.`;
     
-    function agregarMensaje(texto, tipo) {
-      const messages = document.getElementById('chatMessages');
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message ${tipo}`;
-      
-      messageDiv.innerHTML = `
-        <div class="avatar">
-          <i class="fas ${tipo === 'ai' ? 'fa-robot' : 'fa-user'}"></i>
-        </div>
-        <div class="content">
-          <strong>${tipo === 'ai' ? 'Asistente Nuclear:' : 'Tú:'}</strong> ${texto}
-        </div>
-      `;
-      
-      messages.appendChild(messageDiv);
-      messages.scrollTop = messages.scrollHeight;
+    // --- SENSOR DATA & CURRENT STATUS (No changes from previous version, already good) ---
+    } else if (userMessageLower.includes("pressure")) {
+      aiResponseText = `Current system pressure is <strong>${S.pressure.value.toFixed(2)} ${S.pressure.unit}</strong>. This is within the nominal operating range of ${S.pressure.nominalLow}-${S.pressure.nominalHigh} ${S.pressure.unit}. All pressure regulation systems are functioning as expected.`;
+    } else if (userMessageLower.includes("radiation") || userMessageLower.includes("rad level")) {
+      aiResponseText = `Current ambient radiation level in monitored zones is <strong>${S.radiation.value.toFixed(2)} ${S.radiation.unit}</strong>. This is considered safe and well within regulatory limits. The critical threshold for alert is ${S.radiation.criticalHigh} ${S.radiation.unit}.`;
+    } else if (userMessageLower.includes("temperature") || userMessageLower.includes("temp")) {
+      aiResponseText = `Reactor core exit temperature is currently <strong>${S.temperature.value.toFixed(0)} ${S.temperature.unit}</strong>. This is within the optimal range of ${S.temperature.nominalLow}-${S.temperature.nominalHigh} ${S.temperature.unit} for efficient heat transfer and material integrity.`;
+    } else if (userMessageLower.includes("power") || userMessageLower.includes("output") || userMessageLower.includes("production") || userMessageLower.includes("energy")) {
+      aiResponseText = `Current net power output is <strong>${S.power.value.toFixed(0)} ${S.power.unit}</strong>. The plant is operating at approximately ${((S.power.value / S.power.max) * 100).toFixed(0)}% of its maximum rated capacity.`;
+    } else if (userMessageLower.includes("neutron flux") || userMessageLower.includes("flux")) {
+      aiResponseText = `The average neutron flux in the core is <strong>${S.neutronFlux.value.toExponential(2)} ${S.neutronFlux.unit}</strong>. This indicates a stable, self-sustaining chain reaction. Control systems are actively managing reactivity.`;
+    } else if (userMessageLower.includes("water level") || userMessageLower.includes("coolant level")) {
+      aiResponseText = `The water level in the pressurizer (or reactor vessel for BWR) is stable at <strong>${S.waterLevel.value.toFixed(1)} ${S.waterLevel.unit}</strong>. This is crucial for maintaining adequate cooling and pressure control.`;
+    } else if (userMessageLower.includes("exposure") || userMessageLower.includes("dosimetry")) {
+      aiResponseText = `The current ${S.personnelExposure.description} is approximately <strong>${S.personnelExposure.value} ${S.personnelExposure.unit}</strong>. This is well below the weekly administrative limit of ${S.personnelExposure.limit} ${S.personnelExposure.unit}. ALARA principles are strictly enforced.`;
+    } else if (userMessageLower.includes("alarm") || userMessageLower.includes("alert")) {
+      if (S.alarms.value === 0) {
+        aiResponseText = `There are currently <strong>${S.alarms.value} ${S.alarms.unit}s</strong>. All systems are operating within normal parameters. ${S.alarms.description}.`;
+      } else {
+        aiResponseText = `ALERT: There are currently <strong>${S.alarms.value} ${S.alarms.unit}(s)</strong>. ${S.alarms.description}. Please check the main control panel for details and follow established procedures immediately.`;
+      }
+    } else if (userMessageLower.includes("uptime") || userMessageLower.includes("operational time")) {
+      aiResponseText = `The reactor has been in continuous operation for <strong>${S.uptime.value.toFixed(2)} ${S.uptime.unit}</strong> during the ${S.uptime.description}. This contributes to our high capacity factor.`;
+    } else if (userMessageLower.includes("gas") || userMessageLower.includes("effluent")) {
+      aiResponseText = `The current ${S.gasConcentration.description} is <strong>${S.gasConcentration.value.toFixed(1)} ${S.gasConcentration.unit}</strong>. This is significantly below the regulatory release limit of ${S.gasConcentration.limit} ${S.gasConcentration.unit}, indicating effective filtration.`;
+    
+    // --- GENERAL NUCLEAR KNOWLEDGE (No changes from previous version, already good) ---
+    } else if (userMessageLower.includes("fission") || userMessageLower.includes("how does nuclear work")) {
+      aiResponseText = `Nuclear fission is a process where the nucleus of a heavy atom, like Uranium-235 or Plutonium-239, splits into smaller parts (lighter nuclei) when struck by a neutron. This process releases a significant amount of energy, more neutrons, and gamma rays. These newly released neutrons can then go on to cause further fissions, leading to a chain reaction. In a nuclear reactor, this chain reaction is controlled to produce heat, which is then used to generate electricity.`;
+    } else if (userMessageLower.includes("pwr") || (userMessageLower.includes("reactor type") && userMessageLower.includes("pressurized water"))) {
+      aiResponseText = `A Pressurized Water Reactor (PWR) is the most common type of light-water nuclear reactor. In a PWR, the primary coolant (water) is pumped under high pressure to the reactor core where it is heated by the energy released by fission. This hot, high-pressure water then flows to a steam generator, where it transfers its thermal energy to a secondary system of water, causing it to boil and produce steam. This steam then drives turbines to generate electricity. The primary coolant water never boils because it is kept at high pressure.`;
+    } else if (userMessageLower.includes("bwr") || (userMessageLower.includes("reactor type") && userMessageLower.includes("boiling water"))) {
+      aiResponseText = `A Boiling Water Reactor (BWR) is another type of light-water nuclear reactor. Unlike a PWR, the water coolant in a BWR is allowed to boil directly in the reactor core. The steam produced in the core rises to the top of the reactor vessel and is routed directly to turbines that drive electrical generators. This direct cycle means there is no separate steam generator system as in a PWR.`;
+    } else if (userMessageLower.includes("fuel cycle")) {
+      aiResponseText = `The nuclear fuel cycle refers to the progression of nuclear fuel through a series of stages. It typically includes:
+        <ul>
+          <li><strong>Front End:</strong> Uranium mining & milling, conversion, enrichment, and fuel fabrication.</li>
+          <li><strong>Service Period:</strong> Fuel irradiation in the reactor.</li>
+          <li><strong>Back End:</strong> Interim storage of spent fuel, reprocessing (optional), and final disposal of radioactive waste.</li>
+        </ul>Each stage involves specific processes and safety considerations.`;
+    } else if (userMessageLower.includes("waste management") || userMessageLower.includes("nuclear waste")) {
+      aiResponseText = `Nuclear waste management involves handling, treating, conditioning, transporting, storing, and disposing of radioactive waste. Waste is categorized by its level of radioactivity (low, intermediate, high). High-level waste, primarily spent nuclear fuel, requires long-term isolation from the biosphere, typically in deep geological repositories. The main goal is to protect human health and the environment.`;
+    } else if (userMessageLower.includes("alpha radiation")) {
+      aiResponseText = `Alpha radiation consists of alpha particles, which are two protons and two neutrons bound together (essentially a Helium nucleus). Alpha particles are relatively heavy and have a positive charge. They have a very short range in materials and can be stopped by a sheet of paper or the outer layer of human skin. However, if alpha-emitting radionuclides are ingested or inhaled, they can be hazardous to internal tissues.`;
+    } else if (userMessageLower.includes("beta radiation")) {
+      aiResponseText = `Beta radiation consists of beta particles, which are high-energy, high-speed electrons or positrons emitted by certain types of radioactive nuclei. Beta particles are more penetrating than alpha particles but less than gamma rays. They can penetrate human skin to some depth and can be stopped by a few millimeters of aluminum or plastic. Internal exposure to beta emitters can also be a significant hazard.`;
+    } else if (userMessageLower.includes("gamma radiation")) {
+      aiResponseText = `Gamma radiation (γ-rays) consists of high-energy photons, similar to X-rays but typically with higher energy. Gamma rays are electromagnetic radiation and have no mass or charge. They are highly penetrating and can pass through the human body, requiring dense materials like lead or concrete for effective shielding. Gamma radiation is a significant hazard both externally and internally.`;
+    } else if (userMessageLower.includes("alara")) {
+      aiResponseText = `ALARA stands for "As Low As Reasonably Achievable". It is a fundamental radiation safety principle for minimizing radiation doses and releases of radioactive materials by employing all reasonable methods. ALARA is not merely a dose limit, but a process that aims to keep doses as far below applicable limits as is practical, taking into account technological, economic, and social factors.`;
+    } else if (userMessageLower.includes("defense in depth") || userMessageLower.includes("defence in depth")) {
+      aiResponseText = `Defense in Depth is a core safety concept in nuclear reactor design and operation. It involves multiple independent and redundant layers of protection to prevent accidents and mitigate their consequences if they do occur. These layers include:
+        <ul>
+          <li>High-quality design and construction.</li>
+          <li>Comprehensive monitoring and control systems.</li>
+          <li>Multiple physical barriers to prevent radioactive releases (fuel cladding, reactor vessel, containment building).</li>
+          <li>Engineered safety features (e.g., emergency core cooling systems).</li>
+          <li>Emergency preparedness and response plans.</li>
+        </ul>The failure of one layer does not mean a failure of the entire safety system.`;
+    } else if (userMessageLower.includes("chernobyl")) {
+      aiResponseText = `The Chernobyl disaster (April 26, 1986) at the Chernobyl Nuclear Power Plant in Ukraine (then part of the Soviet Union) was a catastrophic nuclear accident. It occurred due to a flawed RBMK reactor design operated with inadequately trained personnel and a disregard for safety procedures during a poorly designed safety test. A sudden power surge led to a series of explosions, a graphite fire, and the release of significant radioactive contamination into the atmosphere over much of Europe. Key lessons learned include the critical importance of inherent reactor safety, robust safety culture, independent regulatory oversight, and international cooperation in nuclear safety.`;
+    } else if (userMessageLower.includes("fukushima")) {
+      aiResponseText = `The Fukushima Daiichi nuclear disaster (March 11, 2011) in Japan was primarily triggered by the Tōhoku earthquake and the subsequent massive tsunami. The tsunami disabled the primary and backup power supply systems, leading to a loss of cooling for three of the six reactors. This resulted in reactor meltdowns, hydrogen explosions in reactor buildings, and the release of radioactive materials into the environment. Key lessons emphasized the need for robust protection against extreme external events (beyond design basis accidents), reliable and diverse backup power systems, hardened containment venting strategies, and effective accident management and emergency response.`;
+    } else if (userMessageLower.includes("three mile island") || userMessageLower.includes("tmi")) {
+      aiResponseText = `The Three Mile Island accident (March 28, 1979) in Pennsylvania, USA, involved a partial meltdown in Unit 2 (TMI-2), a Pressurized Water Reactor. It was caused by a combination of equipment malfunctions (a stuck-open pilot-operated relief valve), design deficiencies in the control room interface, and human errors in diagnosing and responding to the evolving situation. While the radioactive release to the environment was relatively small and health effects were determined to be negligible, the accident had a profound impact on the nuclear industry worldwide. It led to major reforms in operator training, emergency response planning, human factors engineering, radiation protection, and regulatory oversight by entities like the U.S. Nuclear Regulatory Commission (NRC).`;
+    } else if (userMessageLower.includes("criticality") || userMessageLower.includes("critical reactor")) {
+      aiResponseText = `In reactor physics, "criticality" (k_eff = 1) refers to the state where a nuclear chain reaction is precisely self-sustaining. This means that, on average, each fission event produces exactly one neutron that goes on to cause another fission. A reactor operating at a steady power level is maintained in a critical state. 
+        <ul>
+            <li>If it's "subcritical" (k_eff < 1), the chain reaction is dying out, and power decreases.</li>
+            <li>If it's "supercritical" (k_eff > 1), the chain reaction is increasing, and power rises.</li>
+        </ul>
+        Control rods, made of neutron-absorbing materials, are used to finely adjust the neutron population and thereby control the reactor's power level and maintain criticality.`;
+    } else if (userMessageLower.includes("shutdown") && userMessageLower.includes("reactor")) {
+      aiResponseText = `Reactor shutdown is the process of deliberately making a nuclear reactor subcritical to stop the nuclear chain reaction and reduce power output to a minimum. This is typically achieved by rapidly and fully inserting all control rods (a procedure known as a "scram" or "trip") into the reactor core. These rods absorb neutrons, drastically reducing the rate of fission. Even after shutdown, a reactor continues to produce significant "decay heat" from the radioactive decay of fission products accumulated in the fuel, requiring continued cooling for a considerable period to prevent overheating and potential fuel damage.`;
+    
+    // --- MENU & DEFAULT ---
+    } else if (userMessageLower.includes("help") || userMessageLower.includes("menu")) { 
+      aiResponseText = detailedMenu;
+    } else { 
+      aiResponseText = "Your query is being parsed, Operator. My primary operational domain covers nuclear reactor status, energy principles, safety protocols, and emergency procedures. For optimal assistance, please refine your query or type 'menu' to review my core capabilities.";
     }
-  </script>
+    return aiResponseText;
+  }
+
+  function addMessageToChat(text, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}`; 
+
+    messageDiv.innerHTML = `
+      <div class="avatar">
+        <i class="fas ${type === 'ai' ? 'fa-atom' : 'fa-user-astronaut'}"></i>
+      </div>
+      <div class="content">
+        <strong>${type === 'ai' ? 'Nuclear Assistant AI:' : 'Operator:'}</strong>
+        <div>${text}</div>
+      </div>
+    `;
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight; 
+  }
+
+  function simulateSensorData() {
+    for (const key in currentStatus) {
+        if (currentStatus[key].hasOwnProperty('fluctuation')) {
+            let P = currentStatus[key]; 
+            let change = (Math.random() - 0.5) * 2 * P.fluctuation;
+            P.value += change;
+            P.value = Math.max(P.min, Math.min(P.max, P.value));
+
+            if (P.value < P.nominalLow && Math.random() < 0.3) P.value += P.fluctuation * 0.2;
+            if (P.value > P.nominalHigh && Math.random() < 0.3) P.value -= P.fluctuation * 0.2;
+        }
+    }
+    if (Math.random() < 0.005 && currentStatus.alarms.value === 0) { 
+        currentStatus.alarms.value = 1;
+        currentStatus.alarms.description = "Minor system anomaly detected - Coolant Flow Sensor C-4B reading erratically. Engineering notified.";
+        addMessageToChat(`<strong>SYSTEM ALERT:</strong> ${currentStatus.alarms.description}`, 'ai'); // Notify in chat
+        setTimeout(() => { 
+            if (currentStatus.alarms.value === 1 && currentStatus.alarms.description.includes("C-4B")) { // Check if it's the same alarm
+                 currentStatus.alarms.value = 0;
+                 currentStatus.alarms.description = "No critical alarms";
+                 addMessageToChat(`<strong>SYSTEM UPDATE:</strong> Anomaly with Coolant Flow Sensor C-4B has been resolved. System nominal.`, 'ai');
+            }
+        }, 30000 + Math.random() * 10000); // Alarm lasts 30-40 seconds
+    }
+    currentStatus.uptime.value += (4/3600); 
+  }
+
+  function getStatusInfo(paramKey) {
+    const P = currentStatus[paramKey];
+    let textValue = P.value.toFixed(paramKey === 'neutronFlux' ? 2 : (P.unit === 'bar' || P.unit === 'mSv/h' || P.unit === 'meters' || P.unit === 'ppm' ? (P.value < 1 && P.value !== 0 ? 2:1) : 0));
+    if (paramKey === 'neutronFlux') textValue = P.value.toExponential(2);
+    
+    let statusClass = 'status-safe';
+    let statusText = "(Nominal)";
+
+    if (P.criticalHigh && P.value >= P.criticalHigh) {
+        statusClass = 'status-critical'; statusText = "(Critical High)";
+    } else if (P.criticalLow && P.value <= P.criticalLow) {
+        statusClass = 'status-critical'; statusText = "(Critical Low)";
+    } else if (P.value > P.nominalHigh || P.value < P.nominalLow) {
+        statusClass = 'status-warning'; statusText = (P.value > P.nominalHigh ? "(Elevated)" : "(Reduced)");
+    }
+    return { text: `${textValue} ${P.unit}`, class: statusClass, descriptiveText: statusText };
+  }
+
+  function updateStatusCards() {
+    simulateSensorData();
+
+    const radiationInfo = getStatusInfo('radiation');
+    document.getElementById('status-radiation').innerHTML = `${radiationInfo.text} <span class="status-text ${radiationInfo.class}">${radiationInfo.descriptiveText}</span>`;
+    
+    const temperatureInfo = getStatusInfo('temperature');
+    document.getElementById('status-temperature').innerHTML = `${temperatureInfo.text} <span class="status-text ${temperatureInfo.class}">${temperatureInfo.descriptiveText}</span>`;
+
+    const pressureInfo = getStatusInfo('pressure');
+    document.getElementById('status-pressure').innerHTML = `${pressureInfo.text} <span class="status-text ${pressureInfo.class}">${pressureInfo.descriptiveText}</span>`;
+
+    const powerInfo = getStatusInfo('power');
+    document.getElementById('status-power').innerHTML = `${powerInfo.text} <span class="status-text ${powerInfo.class}">${powerInfo.descriptiveText}</span>`;
+  }
+</script>
 </body>
 </html>

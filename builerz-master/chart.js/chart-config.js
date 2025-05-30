@@ -1,11 +1,11 @@
-// Configuración de gráficos optimizada
+// Optimized chart configuration
 const configuracionesGraficas = [
   { 
     idBarra: 'graficaPresionBarra', 
     idLinea: 'graficaPresionLinea', 
     datos: datos.presion, 
     campo: 'presion', 
-    etiqueta: 'Presión',
+    etiqueta: 'Pressure',
     unidad: 'bar',
     color: 'rgba(26, 129, 124, 0.7)'
   },
@@ -14,7 +14,7 @@ const configuracionesGraficas = [
     idLinea: 'graficaRadiacionLinea', 
     datos: datos.radiacion, 
     campo: 'radiacion', 
-    etiqueta: 'Radiación',
+    etiqueta: 'Radiation',
     unidad: 'mSv/h',
     color: 'rgba(220, 50, 50, 0.7)'
   },
@@ -23,7 +23,7 @@ const configuracionesGraficas = [
     idLinea: 'graficaTemperaturaLinea', 
     datos: datos.temperatura, 
     campo: 'temperatura', 
-    etiqueta: 'Temperatura',
+    etiqueta: 'Temperature',
     unidad: 'K',
     color: 'rgba(255, 159, 64, 0.7)'
   },
@@ -32,7 +32,7 @@ const configuracionesGraficas = [
     idLinea: 'graficaProduccionLinea', 
     datos: datos.produccion, 
     campo: 'produccion', 
-    etiqueta: 'Producción',
+    etiqueta: 'Production',
     unidad: 'MW',
     color: 'rgba(75, 192, 192, 0.7)'
   },
@@ -41,7 +41,7 @@ const configuracionesGraficas = [
     idLinea: 'graficaFlujoNeutronesLinea', 
     datos: datos.flujoNeutrones, 
     campo: 'flujoNeutrones', 
-    etiqueta: 'Flujo de Neutrones',
+    etiqueta: 'Neutron Flux',
     unidad: 'n/cm²·s',
     color: 'rgba(153, 102, 255, 0.7)'
   },
@@ -50,7 +50,7 @@ const configuracionesGraficas = [
     idLinea: 'graficaNivelAguaLinea', 
     datos: datos.nivelAgua, 
     campo: 'nivelAgua', 
-    etiqueta: 'Nivel de Agua',
+    etiqueta: 'Water Level',
     unidad: 'm',
     color: 'rgba(54, 162, 235, 0.7)'
   },
@@ -59,7 +59,7 @@ const configuracionesGraficas = [
     idLinea: 'graficaExposicionPersonalLinea', 
     datos: datos.exposicionPersonal, 
     campo: 'exposicionPersonal', 
-    etiqueta: 'Exposición Personal',
+    etiqueta: 'Personnel Exposure',
     unidad: 'µSv',
     color: 'rgba(255, 205, 86, 0.7)'
   },
@@ -68,8 +68,8 @@ const configuracionesGraficas = [
     idLinea: 'graficaAlarmasLinea', 
     datos: datos.alarmas, 
     campo: 'alarmas', 
-    etiqueta: 'Alarmas',
-    unidad: 'cantidad',
+    etiqueta: 'Alarms',
+    unidad: 'count',
     color: 'rgba(255, 99, 132, 0.7)'
   },
   { 
@@ -77,8 +77,8 @@ const configuracionesGraficas = [
     idLinea: 'graficaTiempoOperacionLinea', 
     datos: datos.tiempoOperacion, 
     campo: 'tiempoOperacion', 
-    etiqueta: 'Tiempo de Operación',
-    unidad: 'horas',
+    etiqueta: 'Operation Time',
+    unidad: 'hours',
     color: 'rgba(201, 203, 207, 0.7)'
   },
   { 
@@ -86,7 +86,7 @@ const configuracionesGraficas = [
     idLinea: 'graficaConcentracionGasesLinea', 
     datos: datos.concentracionGases, 
     campo: 'concentracionGases', 
-    etiqueta: 'Concentración de Gases',
+    etiqueta: 'Gas Concentration',
     unidad: 'ppm',
     color: 'rgba(255, 159, 64, 0.7)'
   }
