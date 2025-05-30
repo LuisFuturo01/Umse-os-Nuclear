@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Control Central Nuclear</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Nuclear Central Control</h1>
+      <div class="status-bar">
+        <span class="status-indicator active"></span>
+        <span>Operación: Normal</span>
+        <span>| Last update: <span id="last-update">30 min</span></span>
+        <span>| Location: La Paz, Bolivia</span>
+      </div>
+    </div>
+  </header>
+  
+  
+  <main>
+    <div class="grid-graficas"></div>
+    <div class="alert-panel-container">
+      <div class="alert-panel" id="alertPanel">
+        <div class="close-container">
+          <span id="button-close" class="panel-close">X</span>
+        </div>
+        <!-- Content of the alert panel -->
+      </div>
+    </div>
+  </main>
+
+  <a href="ia.html" class="floating-btn">
+    <i class="fas fa-robot"></i>
+    <span>Asistente IA</span>
+  </a>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
+  <script src="data.js"></script>
+  <script src="chart-config.js"></script>
+  <script src="utils.js"></script>
+  <script src="app.js"></script>
+  <script src="sidebar.js"></script>
+</body>
+</html>
